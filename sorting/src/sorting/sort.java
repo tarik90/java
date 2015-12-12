@@ -64,16 +64,36 @@ public class sort {
 		}
 		
 	}
+	
+	//selection sort.average O(n^2)
+	public static void selectionSort(int[] givenArray){
+		int g_length=givenArray.length;
+		
+		for(int i=0;i<g_length-1;i++){
+			int smallest=i;
+			for(int j=i+1;j<g_length;j++){
+				if(givenArray[smallest]>givenArray[j]){
+					smallest=j;
+				}
+			}
+			int temp=givenArray[smallest];
+			givenArray[smallest]=givenArray[i];
+			givenArray[i]=temp;
+		}
+		
+	}
 
 	public static void main(String[] args) {
-	    int[] numberArray = new int[10];
+		int array_length=10;
+	    int[] numberArray = new int[array_length];
+	    
 		Random rn = new Random();
-		for(int i=0;i<10;i++){
+		for(int i=0;i<array_length;i++){
 			int answer = rn.nextInt(100 - 1 + 1) + 1;
 			numberArray[i] = answer;
 		}
 		System.out.print("Original: ");
-		for(int i=0;i<10;i++){
+		for(int i=0;i<array_length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
 		
@@ -82,7 +102,7 @@ public class sort {
 		//bubblesort
 		bubbleSort(numberArray);
 		System.out.print("Bubble sort: ");
-		for(int i=0;i<10;i++){
+		for(int i=0;i<array_length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
 		
@@ -91,7 +111,16 @@ public class sort {
 		//mergesort
 		mergeSort(numberArray);
 		System.out.print("Merge sort: ");
-		for(int i=0;i<10;i++){
+		for(int i=0;i<array_length;i++){
+			System.out.print(numberArray[i] + " ");
+		}
+		
+		System.out.print("\n");
+		
+		//selectionsort
+		selectionSort(numberArray);
+		System.out.print("Selection sort: ");
+		for(int i=0;i<array_length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
 		
