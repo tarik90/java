@@ -82,6 +82,23 @@ public class sort {
 		}
 		
 	}
+	
+	//insertion sort. Average case O(n^2)
+	public static void insertionSort(int[] givenArray){
+		int g_length=givenArray.length;
+		int temp;
+		
+		for(int i=0;i<g_length;i++){
+			while(i>0){
+				if(givenArray[i]>givenArray[i-1]){
+					temp=givenArray[i];
+					givenArray[i]=givenArray[i-1];
+					givenArray[i-1]=temp;
+					i--;
+				}
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		int array_length=10;
@@ -98,7 +115,6 @@ public class sort {
 		}
 		
 		System.out.print("\n");
-		
 		//bubblesort
 		bubbleSort(numberArray);
 		System.out.print("Bubble sort: ");
@@ -107,7 +123,6 @@ public class sort {
 		}
 		
 		System.out.print("\n");
-		
 		//mergesort
 		mergeSort(numberArray);
 		System.out.print("Merge sort: ");
@@ -116,10 +131,17 @@ public class sort {
 		}
 		
 		System.out.print("\n");
-		
 		//selectionsort
 		selectionSort(numberArray);
 		System.out.print("Selection sort: ");
+		for(int i=0;i<array_length;i++){
+			System.out.print(numberArray[i] + " ");
+		}
+		
+		System.out.print("\n");
+		//insertionsort
+		selectionSort(numberArray);
+		System.out.print("Insertion sort: ");
 		for(int i=0;i<array_length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
