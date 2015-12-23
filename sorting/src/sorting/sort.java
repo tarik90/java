@@ -45,19 +45,21 @@ public class sort {
 		int g_length=givenArray.length;
 		
 		
-		if(g_length>2){
+		if(g_length>1){
 			int midpoint=g_length/2;
 			int left[]=new int[midpoint];
 			int right[]=new int[g_length-midpoint];
 			
-			for(int i=0;i<midpoint;i++){
+			for(int i=0;i<left.length;i++){
 				left[i]=givenArray[i];
+				//System.out.print(left[i]+" ");
 			}
-			
-			for(int j=0;j<g_length-midpoint;j++){
+			//System.out.print("\n");
+			for(int j=0;j<right.length;j++){
 				right[j]=givenArray[midpoint+j];
+				//System.out.print(right[j]+" ");
 			}
-			
+			//System.out.print("\n");System.out.print("\n");
 			mergeSort(left);
 			mergeSort(right);
 			merge(left,right,givenArray);
@@ -65,6 +67,37 @@ public class sort {
 		
 	}
 	
+	//quick sort. worse case O(n2), average O(nlogn)
+	public static void quickSort(int start, int end,int[] givenArray){
+		if(start<end){
+			int p_index=partition(start,end,givenArray);
+			//System.out.println(p_index);
+			quickSort(start,p_index-1,givenArray);
+			quickSort(p_index+1,end,givenArray);
+		}
+	}
+	
+	public static int partition(int start, int end, int[] givenArray){
+		int p_index=start;
+		int pivot=givenArray[end];
+		int temp=0;
+		
+		for(int i=start;i<end;i++){
+			if(givenArray[i]<=pivot){
+				temp=givenArray[p_index];
+				givenArray[p_index]=givenArray[i];
+				givenArray[i]=temp;
+				p_index++;
+				
+			}
+		}
+		
+		int ntemp=givenArray[p_index];
+		givenArray[p_index]=pivot;
+		givenArray[end]=ntemp;
+		return p_index;
+		
+	}
 	//selection sort.average O(n^2)
 	public static void selectionSort(int[] givenArray){
 		int g_length=givenArray.length;
@@ -102,46 +135,57 @@ public class sort {
 
 	public static void main(String[] args) {
 		int array_length=10;
-	    int[] numberArray = new int[array_length];
-	    
-		Random rn = new Random();
-		for(int i=0;i<array_length;i++){
-			int answer = rn.nextInt(100 - 1 + 1) + 1;
-			numberArray[i] = answer;
-		}
+//	    int[] numberArray = new int[array_length];
+//	    
+//		Random rn = new Random();
+//		for(int i=0;i<array_length;i++){
+//			int answer = rn.nextInt(100 - 1 + 1) + 1;
+//			numberArray[i] = answer;
+//		}
+		
+		int[] numberArray={4,6,2,9,1,10,3,8,5,7};
 		System.out.print("Original: ");
-		for(int i=0;i<array_length;i++){
+		for(int i=0;i<numberArray.length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
 		
-		System.out.print("\n");
-		//bubblesort
-		bubbleSort(numberArray);
-		System.out.print("Bubble sort: ");
-		for(int i=0;i<array_length;i++){
-			System.out.print(numberArray[i] + " ");
-		}
 		
-		System.out.print("\n");
-		//mergesort
-		mergeSort(numberArray);
-		System.out.print("Merge sort: ");
-		for(int i=0;i<array_length;i++){
-			System.out.print(numberArray[i] + " ");
-		}
+//		System.out.print("\n");
+//		//bubblesort
+//		bubbleSort(numberArray);
+//		System.out.print("Bubble sort: ");
+//		for(int i=0;i<array_length;i++){
+//			System.out.print(numberArray[i] + " ");
+//		}
+//		
+//		System.out.print("\n");
+//		//mergesort
+//		mergeSort(numberArray);
+//		System.out.print("Merge sort: ");
+//		for(int i=0;i<numberArray.length;i++){
+//			System.out.print(numberArray[i] + " ");
+//		}
 		
-		System.out.print("\n");
-		//selectionsort
-		selectionSort(numberArray);
-		System.out.print("Selection sort: ");
-		for(int i=0;i<array_length;i++){
-			System.out.print(numberArray[i] + " ");
-		}
+//		System.out.print("\n");
+//		//selectionsort
+//		selectionSort(numberArray);
+//		System.out.print("Selection sort: ");
+//		for(int i=0;i<array_length;i++){
+//			System.out.print(numberArray[i] + " ");
+//		}
 		
+//		System.out.print("\n");
+//		//insertionsort
+//		selectionSort(numberArray);
+//		System.out.print("Insertion sort: ");
+//		for(int i=0;i<array_length;i++){
+//			System.out.print(numberArray[i] + " ");
+//		}
+//		
 		System.out.print("\n");
-		//insertionsort
-		selectionSort(numberArray);
-		System.out.print("Insertion sort: ");
+		//quicksort
+		quickSort(0,numberArray.length-1,numberArray);
+		System.out.print("Quick sort: ");
 		for(int i=0;i<array_length;i++){
 			System.out.print(numberArray[i] + " ");
 		}
