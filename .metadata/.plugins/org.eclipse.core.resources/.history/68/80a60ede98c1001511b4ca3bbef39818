@@ -1,0 +1,115 @@
+package chatApp;
+
+import java.awt.*;
+import java.io.*;
+import java.net.*;
+import javax.swing.*;
+
+public class client extends JFrame{
+	
+	private JFrame frame;
+	private JTextField textField;
+	private JTextArea chatWindow;
+	private String serverIP;
+	private Socket connection;
+	private ObjectOutputStream output;
+	private ObjectInputStream input;
+	
+	
+	public client(String serverIP){
+		super("Client");
+		frame = new JFrame();
+		//frame.setLayout(new FlowLayout());
+		frame.setSize(300,300);
+		frame.setVisible(true);
+		//frame.setLayout(new FlowLayout());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+        String text = null;
+		chatWindow = new JTextArea(text,15,10);
+		chatWindow.setPreferredSize(new Dimension(200, 200));
+		chatWindow.setEditable(false);
+		frame.add(new JScrollPane(chatWindow),BorderLayout.NORTH);
+		
+		textField = new JTextField();
+		textField.setText("client");
+		textField.setEditable(false);
+		frame.add(textField,BorderLayout.SOUTH);
+		
+		
+		//frame.add(pane);
+	}
+	
+	public void runAllService(){
+			try {
+				startConnection();
+				setUpStreams();
+				manageMessages();
+			} catch (IOException | ClassNotFoundException e) {
+				//showMessage("Something wrong!!");
+			}finally{
+				try {
+					closeConnection();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+	}
+	
+	private void startConnection() throws IOException{
+		showMessage("Waiting to connect to server...");
+		connection = new Socket(InetAddress.getByName(serverIP),4444);
+		showMessage("Connected to " + connection.getInetAddress().getHostName());
+	}
+	
+	private void setUpStreams() throws IOException{
+		output = new ObjectOutputStream(connection.getOutputStream());
+		output.flush();
+		input = new ObjectInputStream(connection.getInputStream());
+		showMessage("Streams are ready to go.");
+	}
+
+	private void manageMessages() throws ClassNotFoundException, IOException{
+		String message = "You are now connected to me";
+		sendMessage(message);
+		do{
+			message = input.readObject().toString();
+			showMessage(message);
+		}while(!message.equals(""));
+	}
+	
+	private void closeConnection() throws IOException{
+		showMessage("Closing conncetion");
+		output.close();
+		input.close();
+		connection.close();
+	}
+	
+	private void sendMessage(String message){
+		try {
+			output.writeObject("\nClient: " + message);
+			output.flush();
+			showMessage("\nClient: " + message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void showMessage(String message){
+		SwingUtilities.invokeLater(
+				new Runnable(){
+					public void run(){
+						chatWindow.append("\n"+message);
+					}
+				});
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		client c1 = new client("127.0.01");
+		
+		c1.runAllService();
+
+	}
+}
