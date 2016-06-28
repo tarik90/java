@@ -20,14 +20,6 @@ while 1:
 	objective=""
 	request=""	
 
-	# message = 'GET /' + filename + ' HTTP/1.1' + '\r\n'
-	# message += 'Host: www.cs.utexas.edu'+'\r\n'  
-	# message +='If-Modified-Since: '+'MON, 16 Feb 2016 04:47:27  GMT'+'\r\n'
-	# clientSocket.send(message.encode())
-
-	# only handle 8192 bytes here. Lots of ways to fix that...
-
-
 	clientInput=input("type..")
 	print(clientInput)
 	seperation=clientInput.split(" ")
@@ -37,10 +29,12 @@ while 1:
 	lengthOfRequest=len(seperation)
 	print("length of request:")
 	print(lengthOfRequest)
+
 	if(lengthOfRequest>1 and lengthOfRequest<3):
 		objective+=seperation[partOfRequest]
 		request+=" "
 		request+=objective
+		
 	elif(lengthOfRequest>2):
 		while(partOfRequest<lengthOfRequest):
 			objective+=" "	
@@ -51,13 +45,9 @@ while 1:
 	print("Request")
 	print(request)
 
-	# if(len(seperation)>1):
-	# 	objective=seperation[1]
-	# 	request+=" "
-	# 	request+=objective
 	if(command == "dwnld" and objective!=""):
 		clientSocket.send(request.encode())
-		print("came to download")
+		# print("came to download")
 		data=clientSocket.recv(1024)
 		# print(data)
 		folder='denied'
@@ -75,11 +65,6 @@ while 1:
 			# print(data)
 			eofFind=data
 			eof=eofFind[(len(data)-4):]
-			# f=str(eof, 'utf-8')
-			# e=eof.decode('utf-8')
-			# # d=eof.decode('ascii')
-			# # if(eof.decode("utf-8")):
-			# # 	e=eof.decode("utf-8")
 
 			if(eof == d):
 				data=data[:-4]
@@ -90,7 +75,7 @@ while 1:
 			# 	break
 			openfile.write(data)
 			data=clientSocket.recv(1024)
-		openfile.close()	# data=clientSocket.recv(1024)
+		openfile.close()
 		print("download complete\n")
 		continue
 		# clientInput=input("type..")
